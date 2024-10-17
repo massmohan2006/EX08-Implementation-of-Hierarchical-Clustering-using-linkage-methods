@@ -1,66 +1,77 @@
-# EX 7 Implementation of Decision Tree Regressor Model for Predicting the Salary of the Employee
+# EX8-Implementation of Hierarchical Clustering using linkage methods
 ## DATE:
 ## AIM:
-To write a program to implement the Decision Tree Regressor Model for Predicting the Salary of the Employee.
+To implement Hierarchical Clustering using single and complete linkage method
 
 ## Equipments Required:
 1. Hardware – PCs
 2. Anaconda – Python 3.7 Installation / Jupyter notebook
 
-## Algorithm
-1.Load the data.
+## Algorithm:
+1.compute the distance between every pair of data points,resulting in a distance matrix
 
-2.Preprocessing the data.
+2.assign each data point to its own individual cluster
 
-3.split the data into training and testing sets.
+3.using a linkage criterion,find the two closest cluster and merge them
 
-4.Train the Decision Tree Regressor.
-
-5.Evaluate the models Performance. 
+4.visualize the hierarchical clustering as a dendrogram
 
 
 ## Program:
 ```
-Program to implement the Decision Tree Regressor Model for Predicting the Salary of the Employee.
-Developed by: ADHITHYA K
-RegisterNumber: 2305002001
 
+Program to implement Hierarchical Clustering using single and complete linkage method
+Developed by: ADHITHYA K
+RegisterNumber:2305002001
+```
+```
 import pandas as pd
-from sklearn.tree import DecisionTreeClassifier,plot_tree
-from sklearn.preprocessing import LabelEncoder
+import numpy as np
 import matplotlib.pyplot as plt
-df = pd.read_csv('/content/Salary_EX7.csv')
-data = df.copy()
-data
-from sklearn.preprocessing import LabelEncoder
-le=LabelEncoder()
-data["Position"]=le.fit_transform(data["Position"])
-data.head()
-x=data[["Position","Level"]]
-x.head()
-y=data["Salary"]
-from sklearn.model_selection import train_test_split
-x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=2)
-from sklearn.tree import DecisionTreeRegressor
-dt = DecisionTreeRegressor()
-dt.fit(x_train,y_train)
-y_pred = dt.predict(x_test)
-from sklearn import metrics
-mse=metrics.mean_squared_error(y_test,y_pred)
-mse
-r2=metrics.r2_score(y_test,y_pred)
-r2
-dt.predict([[5,6]])
+from scipy.cluster.hierarchy import dendrogram, linkage,fcluster
+from sklearn.preprocessing import StandardScaler
+df = pd.read_csv("/content/Hclus_EX8.csv")
+df.head()
+x = df[['StudentID','Marks']].values
+x
+z=linkage(x,method='complete')
+plt.figure(figsize=(5,2))
+plt.title("Dendogram for student segmentation")
+labels=range(1,len(df)+1)
+dendrogram(z,labels=labels)
+plt.xlabel("Student ID")
+plt.ylabel("Marks")
+plt.show()
+max_cluster=2
+clusters=fcluster(z,max_cluster,criterion='maxclust')
+clusters
+plt.figure(figsize=(5,2))
+plt.scatter(x[:,0],x[:,1],c=clusters,cmap='rainbow',s=100)
+plt.title("Student segmented(Hierarchical clustering)")
+plt.xlabel("Student ID")
+plt.ylabel("Marks")
+plt.show()
+z=linkage(x,method='single')
+plt.figure(figsize=(5,2))
+plt.title("Dendogram for student segmentation")
+labels=range(1,len(df)+1)
+dendrogram(z,labels=labels)
+plt.xlabel("Student ID")
+plt.ylabel("Marks")
+plt.show()
+
 
 ```
 
 ## Output:
-![image](https://github.com/user-attachments/assets/28d91edf-2a60-4aee-99fa-7e093a84bc6b)
-![image](https://github.com/user-attachments/assets/d012b571-0751-4db9-8212-c442d249ad95)
+![image](https://github.com/user-attachments/assets/0508573b-436b-4110-aa31-eb1b0cab1c99)
+![image](https://github.com/user-attachments/assets/4865aa37-ef41-446b-932a-127c9e759df9)
+![image](https://github.com/user-attachments/assets/c341525c-c871-4055-9873-6cb4c51f0b73)
+
 
 
 
 
 
 ## Result:
-Thus the program to implement the Decision Tree Regressor Model for Predicting the Salary of the Employee is written and verified using python programming.
+Thus the implementation of Hierarchical Clustering using single and complete linkage method in python programming and verified successfully.
